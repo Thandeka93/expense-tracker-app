@@ -22,7 +22,7 @@ table{
 
     margin: 1em auto;
     padding: 0.5em;
-    background-color: #e07a5f;
+    background-color: #034f96;
 }
 
 th, td {
@@ -39,12 +39,13 @@ header{
 .add{
     display: flex;
     flex-direction: column;
-    max-width: 300px; /* Adjust as needed */
-    margin: auto; /* Centers the div horizontally */
+    max-width: 300px; 
+    margin: auto; 
 }
 
 button{
-    background-color:#f2cc8f ;
+    background-color:white;
     padding: 0.4em;
-    border-radius: 15px;
+    height: 30px;
+    
 }

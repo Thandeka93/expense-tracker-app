@@ -1,4 +1,5 @@
 export default function (servicesFunc) {
+    
   function home(req, res) {
     try {
       res.render("index");
@@ -6,6 +7,7 @@ export default function (servicesFunc) {
       console.log(err);
     }
   }
+
   function expense(req, res) {
     try {
       res.render("expense");
@@ -13,5 +15,6 @@ export default function (servicesFunc) {
       console.log(err);
     }
   }
+  
   return { home, expense };
 }
