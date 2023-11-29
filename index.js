@@ -17,7 +17,6 @@ const pgp = pgPromise();
 const db = pgp(connectionString);
 
 const expenseServices = Expense();
-/* INITIALIZE ROUTES FUNCTION */
 const expenseRoute = routes(expenseServices);
 
 //body-parser middleware
@@ -36,7 +35,10 @@ app.set('views', './views');
 app.use(express.static('public'));
 
 app.get("/", expenseRoute.home);
+app.post("/addexpense", expenseRoute.addExpense);
+app.post("/expense/:category", expenseRoute.expenseForCategory);
 app.get("/expense", expenseRoute.expense);
+
 
 
 

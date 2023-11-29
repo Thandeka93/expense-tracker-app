@@ -1,0 +1,102 @@
+// Exporting a default function that takes servicesFunc as a parameter
+export default function (servicesFunc) {
+
+    // Initializing a message variable
+    let message = "";
+    
+    // Defining a regular expression for validating descriptions
+    let regex = /^([a-zA-Z]{3,})$/;
+
+    // Async function to handle the home route
+    async function home(req, res) {
+        // Flashing the message to be displayed (if any)
+        req.flash("message", message);
+
+        // Rendering the index view with an empty object
+        res.render("index", {});
+    }
+
+    // Async function to handle the expense route
+    async function expense(req, res) {
+        // Extracting data from the request body
+        let description = req.body.description;
+        let amount = req.body.amount;
+        let category = req.body.category;
+    
+        // Initializing a variable to determine the category id
+        let id = 0;
+
+        // Switch statement to map category names to category ids
+        switch (category) {
+            case "Daily":
+                id = 1;
+                break;
+    
+            case "Monthly":
+                id = 2;
+                break;
+    
+            case "Weekend":
+                id = 3;
+                break;
+    
+            case "Weekly":
+                id = 4;
+                break;
+    
+            case "Weekday":
+                id = 5;
+                break;
+    
+            case "Once-Off":
+                id = 6;
+                break;
+        }
+    
+        // Logging the determined category id
+        console.log(id);
+    
+        // Checking if a description is provided
+        if (description) {
+            // Trimming leading and trailing whitespaces
+            description = description.trim();
+            
+            // Checking if the description matches the regex pattern
+            if (regex.test(description)) {
+                // Checking if an amount is provided
+                if (amount) {
+                    // Checking if the amount is greater than zero
+                    if (amount < 1) {
+                        message = "Amount cannot be zero";
+                    } else {
+                        // Calling the recordExpense function from servicesFunc
+                        await servicesFunc.recordExpense(id, description, amount);
+                        message = "Successfully added expense";
+                    }
+                } else {
+                    message = "Please enter an amount";
+                }
+            } else {
+                message = "Please enter a valid description";
+            }
+        } else {
+            message = "Please enter a description";
+        }
+    
+        // Redirecting to the home page
+        res.redirect("/");
+    }
+
+    // Async function to handle the getExpenses route
+    async function getExpenses(req, res) {
+        // Fetching expenses using the getExpenses function from servicesFunc
+        let expenses = await servicesFunc.query.getExpenses();
+    }
+    
+    // Returning an object with references to the home, expense, and getExpenses functions
+    return { 
+        home, 
+        expense, 
+        getExpenses 
+    };
+}
