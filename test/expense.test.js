@@ -29,6 +29,16 @@ describe("Expense Tracker", function () {
     assert.deepEqual(res, query);
   });
 
+  it("should filter expense by given category", async function () {
+    await expense.addExpense("Coffee", 200.0, 4);
+    await expense.addExpense("Lunch", 1600.0, 3);
+    await expense.addExpense("Taxi", 1200.0, 3);
+    await expense.addExpense("Rent", 1600.0, 2);
+    
+    let expenseFor = await expense.expenseForCategory(3);
+    assert.equal(2, expenseFor.length);
+  });
+
   after(function () {
     db.$pool.end();
   });

@@ -8,7 +8,13 @@ export default function Expense(db) {
         return await db.manyOrNone("SELECT * FROM expense");
       }
     }
+    async function expenseForCategory(categoryid) {
+      return await db.any("SELECT * FROM expense WHERE category_id=$1", [
+        categoryid,
+      ]);
+    }
     return {
       addExpense,
+      expenseForCategory,
     };
   }
