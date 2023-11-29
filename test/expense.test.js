@@ -39,6 +39,13 @@ describe("Expense Tracker", function () {
     assert.equal(2, expenseFor.length);
   });
 
+  it("get all expense", async function () {
+    await expense.addExpense("Lunch", 1600.0, 3);
+    await expense.addExpense("Coffee", 200.0, 4);
+    let result = await expense.allExpenses();
+    assert.equal(2, result.length);
+  });
+
   after(function () {
     db.$pool.end();
   });
